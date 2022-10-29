@@ -1,0 +1,18 @@
+{
+  "name": "sylviavdv/router",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sylvia van der Veen"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Sylviavdv\\Router\\": "src",
+      "sv\\": ""
+    }
+  },
+  "require": {
+    "composer/class-map-generator": "^1.0"
+  }
+}
