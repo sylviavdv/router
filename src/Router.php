@@ -23,7 +23,8 @@ class Router
 
     public function findRoute(): ?Route
     {
-        $uri = $_SERVER['REQUEST_URI'];
+        $baseDir = dirname($_SERVER['PHP_SELF']);
+        $uri = str_replace($baseDir, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $method = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routeCollection->getRoutes() as $route) {

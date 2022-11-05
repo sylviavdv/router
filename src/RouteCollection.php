@@ -24,6 +24,17 @@ class RouteCollection
         return $this->routes;
     }
 
+    public function sort(): void
+    {
+        usort ($this->routes, function(Route $a, Route $b) {
+            if ($a->priority === $b->priority) {
+                return $a->path <=> $b->path;
+            }
+
+            return -1 * ($a->priority <=> $b->priority);
+        });
+    }
+
     public static function __set_state(array $values)
     {
         $routeCollection = new RouteCollection();

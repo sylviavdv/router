@@ -4,12 +4,12 @@ namespace Sylviavdv\Router\Attributes;
 
 use Attribute;
 
-#[Attribute]
+#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_METHOD)]
 class Route
 {
     protected string $compiledPath;
 
-    protected string $controllerName;
+    public readonly string $controllerName;
 
     protected object $controllerObject;
 
@@ -17,16 +17,15 @@ class Route
 
     protected array $methodParams = [];
 
-    public function __construct(protected string $path, protected string $method = "", protected array $params = [], protected array $postRequirements = [], protected array $getRequirements = [])
+    public function __construct(public readonly string $path, public readonly string $method = "", protected array $params = [], protected array $postRequirements = [], protected array $getRequirements = [], public readonly int $priority = 1)
     {
     }
 
-    public function configure(string $prefix, string $controllerMethod, string $controllerName, array $methodParams)
+    public function configure(string $controllerMethod, string $controllerName, array $methodParams)
     {
-         $this->path = $prefix.$this->path;
          $this->controllerMethod = $controllerMethod;
          $this->controllerName = $controllerName;
-         $this->methodParams = $methodParams;
+         $this->methodParams = array_fill_keys($methodParams, null);
 
          $this->compilePath();
     }

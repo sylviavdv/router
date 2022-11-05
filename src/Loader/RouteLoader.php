@@ -37,6 +37,8 @@ class RouteLoader
             }
         }
 
+        $routeCollection->sort();
+
         if (!empty($cacheFile)) {
             self::writeCollection($cacheFile, $routeCollection);
         }
@@ -56,7 +58,6 @@ class RouteLoader
         $route = $attribute->newInstance();
         $parameters = array_column($method->getParameters(), 'name');
         $route->configure(
-            prefix: $prefix,
             controllerMethod: $method->getName(),
             controllerName: $controller,
             methodParams: $parameters
