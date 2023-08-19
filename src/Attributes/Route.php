@@ -11,14 +11,23 @@ class Route
 
     public readonly string $controllerName;
 
+    public readonly string $uri;
+
     protected object $controllerObject;
 
-    protected string $controllerMethod;
+    public readonly string $controllerMethod;
 
     protected array $methodParams = [];
 
-    public function __construct(public readonly string $path, public readonly string $method = "", protected array $params = [], protected array $postRequirements = [], protected array $getRequirements = [], public readonly int $priority = 1)
-    {
+    public function __construct(
+        public readonly string $path,
+        public readonly string $method = "",
+        protected array $params = [],
+        protected array $postRequirements = [],
+        protected array $getRequirements = [],
+        public readonly int $priority = 1,
+        public readonly string $name = ''
+    ) {
     }
 
     public function configure(string $controllerMethod, string $controllerName, array $methodParams)
@@ -62,6 +71,11 @@ class Route
                $this->methodParams[$variable] = $_GET[$variable];
             }
         }
+        if (array_key_exists('route', $this->methodParams)) {
+            $this->methodParams['route'] = $this;
+        }
+
+        $this->uri = $uri;
 
         return true;
     }
