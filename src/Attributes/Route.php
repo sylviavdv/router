@@ -97,7 +97,7 @@ class Route
 
     public static function __set_state(array $values)
     {
-        $route = new Route($values['path'], $values['method'], $values['params'], $values['postRequirements'], $values['getRequirements']);
+        $route = new Route($values['path'], $values['method'], $values['params'], $values['postRequirements'], $values['getRequirements'], $values['priority'], $values['name']);
         $route->compiledPath = $values['compiledPath'];
         $route->controllerName = $values['controllerName'];
         $route->controllerMethod = $values['controllerMethod'];
