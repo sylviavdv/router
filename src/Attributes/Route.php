@@ -75,7 +75,9 @@ class Route
             $this->methodParams['route'] = $this;
         }
 
-        $this->uri = $uri;
+        if (empty($this->uri)) {
+            $this->uri = $uri;
+        }
 
         return true;
     }
