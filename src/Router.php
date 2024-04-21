@@ -21,13 +21,18 @@ class Router
         $route->process();
     }
 
-    public function findRoute(): ?Route
+    public function findRoute(?callable $filterCallback = null): ?Route
     {
         $baseDir = dirname($_SERVER['PHP_SELF']);
         $uri = str_replace($baseDir, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $method = $_SERVER['REQUEST_METHOD'];
 
-        foreach ($this->routeCollection->getRoutes() as $route) {
+        $routes = $this->routeCollection->getRoutes();
+        if (!is_null($filterCallback)) {
+            $routes = array_filter($routes, $filterCallback);
+        }
+
+        foreach ($routes as $route) {
             if ($route->isMatch($uri, $method)) {
                 return $route;
             }
