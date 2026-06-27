@@ -1,5 +1,6 @@
 {
   "name": "sylviavdv/router",
+  "description": "A simple router for PHP",
   "license": "MIT",
   "authors": [
     {
@@ -8,12 +9,20 @@
   ],
   "autoload": {
     "psr-4": {
-      "Sylviavdv\\Router\\": "src",
-      "sv\\": ""
+      "Sylviavdv\\Router\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sylviavdv\\Router\\Tests\\": "test"
     }
   },
   "require": {
     "composer/class-map-generator": "^1.0",
     "php": ">=8.1"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^2.2",
+    "phpunit/phpunit": "^13.2"
   }
 }

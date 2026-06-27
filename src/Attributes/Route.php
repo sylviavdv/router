@@ -9,16 +9,23 @@ class Route
 {
     protected string $compiledPath;
 
-    public readonly string $controllerName;
-
-    public readonly string $uri;
+    public string $uri = '';
 
     protected object $controllerObject;
 
-    public readonly string $controllerMethod;
+    public string $controllerName = '';
 
+    public string $controllerMethod = '';
+
+    /** @var array<string,mixed> */
     protected array $methodParams = [];
 
+    /**
+     * @param array<string,mixed> $meta
+     * @param array<string,string> $getRequirements
+     * @param array<string,string> $postRequirements
+     * @param array<string,string> $params
+     */
     public function __construct(
         public readonly string $path,
         public readonly string $method = "",
@@ -26,11 +33,15 @@ class Route
         protected array $postRequirements = [],
         protected array $getRequirements = [],
         public readonly int $priority = 1,
-        public readonly string $name = ''
+        public readonly string $name = '',
+        public array $meta = [],
     ) {
     }
 
-    public function configure(string $controllerMethod, string $controllerName, array $methodParams)
+    /**
+     * @param array<string> $methodParams
+     */
+    public function configure(string $controllerMethod, string $controllerName, array $methodParams): void
     {
          $this->controllerMethod = $controllerMethod;
          $this->controllerName = $controllerName;
@@ -97,9 +108,12 @@ class Route
     }
 
 
+    /**
+     * @param array<string,mixed> $values
+     */
     public static function __set_state(array $values)
     {
-        $route = new Route($values['path'], $values['method'], $values['params'], $values['postRequirements'], $values['getRequirements'], $values['priority'], $values['name']);
+        $route = new Route($values['path'], $values['method'], $values['params'], $values['postRequirements'], $values['getRequirements'], $values['priority'], $values['name'], $values['meta']);
         $route->compiledPath = $values['compiledPath'];
         $route->controllerName = $values['controllerName'];
         $route->controllerMethod = $values['controllerMethod'];
@@ -125,7 +139,7 @@ class Route
             $this->compiledPath = str_replace($str, $regex, $this->compiledPath);
         }
 
-        if (!str_starts_with('/', $this->compiledPath)) {
+        if (!str_starts_with($this->compiledPath, '/')) {
             $this->compiledPath = '/'.$this->compiledPath;
         }
         $this->compiledPath = str_replace('/','\/',$this->compiledPath);

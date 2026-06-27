@@ -11,7 +11,7 @@ class RouteCollection
      */
     protected array $routes = [];
 
-    public function addRoute(Route $route)
+    public function addRoute(Route $route): void
     {
         $this->routes[] = $route;
     }
@@ -35,6 +35,9 @@ class RouteCollection
         });
     }
 
+    /**
+     * @param array<string, array<Route>> $values
+     */
     public static function __set_state(array $values)
     {
         $routeCollection = new RouteCollection();

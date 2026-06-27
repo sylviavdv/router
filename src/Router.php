@@ -10,7 +10,7 @@ class Router
     {
     }
 
-    public function handleRequest()
+    public function handleRequest(): void
     {
         $route = $this->findRoute();
         if (is_null($route)) {
@@ -24,6 +24,10 @@ class Router
     public function findRoute(?callable $filterCallback = null): ?Route
     {
         $baseDir = dirname($_SERVER['PHP_SELF']);
+        if (strlen($baseDir) === 1) {
+            $baseDir = '';
+        }
+        
         $uri = str_replace($baseDir, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         $method = $_SERVER['REQUEST_METHOD'];
 
