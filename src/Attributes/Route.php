@@ -23,7 +23,7 @@ class Route
     /**
      * @param array<string,mixed> $meta
      * @param array<string,string> $getRequirements
-     * @param array<string,string> $postRequirements
+     * @param array<string,scalar> $postRequirements
      * @param array<string,string> $params
      */
     public function __construct(
